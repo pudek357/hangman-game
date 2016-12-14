@@ -1,0 +1,17 @@
+{
+  "name": "hangman-game",
+  "version": "0.0.0",
+  "authors": [
+    "Rafał Kwaśniewski <pudek357@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {}
+}
