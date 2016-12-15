@@ -1,0 +1,80 @@
+.app {
+    background-color: $app-bg;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+    min-height: calc(100vh - (2 * #{$body-padding / 2}));
+    padding: $app-padding / 2;
+    position: relative;
+}
+
+.app__inner {
+    width: 100%;
+    position: relative;
+}
+
+.corner-bg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 150px 150px;
+    border-color: transparent transparent $corner-bg;
+}
+
+.missed-info {
+    font-size: 18px;
+}
+
+.start-info {
+    display: none;
+}
+
+.missed-info__title {
+    font-size: .5em;
+}
+
+.missed-info__letters {
+    letter-spacing: 0.09em;
+    color: $c-accent;
+}
+
+.game-over {
+    display: none;
+}
+.game-over__title {}
+.game-over__btn {}
+
+.input-letters {
+    margin-right: -2px;
+    margin-left: -2px;
+    @include clearfix;
+}
+.input-letters__item {
+    float: left;
+    width: 100% * (1/ $count-letters);
+    text-align: center;
+    color: $c-letter;
+    padding: 5px 0 8px;
+    position: relative;
+    z-index: 10;
+    line-height: 1;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 1px;
+        bottom: 0;
+        left: 1px;
+        background-color: $c-letter-bg;
+        border-radius: 3px;
+        z-index: -1;
+    }
+}
+.input-letters__item--empty:before {
+    background-color: $c-disabled-letter-bg;
+}

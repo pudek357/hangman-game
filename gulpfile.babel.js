@@ -34,16 +34,13 @@ var paths = {
     }
 };
 
-var processors = [
-    autoprefixer({
-        browsers: ['> 1% in PL', 'IE >= 9', 'last 2 version']
-    })
-];
-
 gulp.task('sass', () => {
     return gulp.src(paths.src.styles)
         .pipe(sass().on('error', sass.logError))
-        .pipe(postcss(processors))
+        .pipe(postcss([autoprefixer({
+                browsers: ['> 1% in PL', 'IE >= 9', 'last 2 version']
+            })
+        ]))
         .pipe(gulp.dest(paths.dist.styles));
 });
 
@@ -119,7 +116,9 @@ gulp.task('minify-js', () => {
 
 gulp.task('haml', () => {
   gulp.src('./app/haml/**/*.haml')
-    .pipe(haml())
+    .pipe(haml({
+        // compiler: 'visionmedia'
+    }))
     .pipe(gulp.dest('./public'))
     .pipe(browserSync.stream());
 });

@@ -4,8 +4,32 @@
         %title Hangman Game
         %link(href="./dist/styles/styles.css" rel="stylesheet")
     %body
-        %h1 Title
+        .app
+            .app__inner
+                .missed-info
+                    .missed-info__title= "You missed:"
+                    .missed-info__letters= "BGSDFKSDJFSDFSD"
+                .start-info= "Start typing"
+                .man
+                .input-letters
+                    .input-letters__item.input-letters__item--1
+                    .input-letters__item.input-letters__item--2.input-letters__item--empty= "d"
+                    .input-letters__item.input-letters__item--3
+                    .input-letters__item.input-letters__item--4
+                    .input-letters__item.input-letters__item--5= "r"
+                    .input-letters__item.input-letters__item--6
+                    .input-letters__item.input-letters__item--7= "w"
+                    .input-letters__item.input-letters__item--8
+                    .input-letters__item.input-letters__item--9
+                    .input-letters__item.input-letters__item--10
+                    .input-letters__item.input-letters__item--11
+                    .input-letters__item.input-letters__item--12
+                / :each item in [1,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                /     .input-letters__= item
+            .corner-bg
 
-
+            .game-over
+                .game-over__title= "Game over"
+                %button.game-over__btn{type: "button"}= "New word"
 
         %script(src="./dist/js/app.js")
