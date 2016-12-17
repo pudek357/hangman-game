@@ -2,6 +2,7 @@
 %html
     %head
         %title Hangman Game
+        %meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1")
         %link(href="./dist/styles/styles.css" rel="stylesheet")
     %body
         .app
@@ -29,7 +30,8 @@
                 .input-letters
                     :each item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                         /:if item < 5
-                        .input-letters__item(class="input-letters__item--!{item}")= "B"
+                        .input-letters__item(class="input-letters__item--!{item}")
+                            .input-letters__item-inner= "B"
             .corner-bg
 
             .game-over

@@ -1,160 +1,11 @@
-@mixin man-head {
-    .man__head {
-        width: $man-head;
-        margin-top: round($bar-inner-height * 0.90);
-        margin-left: $bar-gauge / 2;
-    }
-}
-
-@mixin bar {
-    .bar {
-        width: $bar-width;
-        height: $bar-gauge;
-    }
-}
-
-@mixin bar-inner {
-    .bar__inner {
-        top: $bar-gauge - round(0.2 * $bar-gauge);
-        right: $bar-gauge;
-        width: $bar-gauge;
-        height: $bar-inner-height;
-    }
-}
-
-@mixin man-neck {
-    .man__neck {
-        width: $man-neck-width;
-        height: $man-neck-height;
-        margin-top: -$man-head;
-    }
-}
-
-@mixin man-corpus {
-    .man__corpus {
-        top: $man-neck-height;
-        left: - round(0.5 * $man-corpus-width);
-        transform: translateX($man-neck-width / 2);
-        width: $man-corpus-width;
-        height: $man-corpus-height;
-
-        &:before,
-        &:after {
-            height: 100% - $man-corpus-bottom-height;
-        }
-    }
-}
-
-@mixin man-left-arm {
-    .man__left-arm {
-        width: $man-arm-width;
-        height: $man-arm-height;
-        top: - round(0.03 * $man-neck-height);
-        right: - round(0.05 * $man-neck-width);
-    }
-}
-
-@mixin man-right-arm {
-    .man__right-arm {
-        width: $man-arm-width;
-        height: $man-arm-height;
-        top: - round(0.03 * $man-neck-height);
-        left: - round(0.05 * $man-neck-width);
-    }
-}
-
-@mixin man-hands {
-    .man__left-hand,
-    .man__right-hand {
-        top: calc(100% - #{(0.42 * $man-hand-width)});
-        width: $man-hand-width;
-        height: $man-hand-width;
-    }
-}
-
-@mixin man-legs {
-    .man__left-leg,
-    .man__right-leg {
-        width: $man-leg-width;
-        height: $man-leg-height;
-        top: 100% - $man-corpus-bottom-height;
-    }
-}
-
-@mixin man-foots {
-    .man__left-foot,
-    .man__right-foot {
-        top: calc(100% - #{(0.42 * $man-hand-width)});
-        width: $man-foot-width;
-        height: $man-foot-height;
-    }
-}
-
-@mixin clearfix {
-    &::after {
-        clear: both;
-        content: '';
-        display: table;
-    }
-}
-
-@mixin is-hidden($type: 'opacity') {
-    &.is-hidden {
-        @if $type == 'opacity' {
-            opacity: 0;
-        } @else {
-            background-color: transparent;
-        }
-    }
-
-    transition: #{$type} $transition-time $transition-name;
-}
-
-@mixin is-hidden-psudo-el($type: 'opacity', $pseudo-el: 'before') {
-
-    &.is-hidden:#{$pseudo-el} {
-        transition: background-color $transition-time $transition-name;
-
-        @if $type == 'opacity' {
-            opacity: 0;
-        } @else {
-            background-color: transparent;
-        }
-    }
-}
-
-
-// Variables
-@mixin set-responsive-variables ($val: 480px) {
-    $man-head: round($val / 8) !global;
-    @if $val == 240px {
-        $man-head: 60px !global;
-    }
-
-    $man-neck-width: round(0.24 * $man-head) !global;
-    $man-neck-height: round($man-head + 0.46 * $man-neck-width) !global;
-    $man-corpus-width: round(0.55 * $man-head) !global;
-    $man-corpus-height: round(1.58 * $man-corpus-width) !global;
-    $man-arm-width: round(0.45 * $man-corpus-width) !global;
-    $man-arm-height: round(0.9 * $man-corpus-height) !global;
-    $man-hand-width: round(0.7 * $man-arm-width) !global;
-    $man-leg-width: round(0.48 * $man-corpus-width) !global;
-    $man-leg-height: round(1.14 * $man-corpus-height) !global;
-    $man-foot-width: round($man-leg-width * 1.8) !global;
-    $man-foot-height: round(0.32 * $man-foot-width) !global;
-
-    $bar-width: round($man-neck-width * 7) !global;
-    $bar-gauge: round(0.16 * $man-head) !global;
-    $bar-inner-height: round(0.21 * $man-head) !global;
-}
-
 $path-to-imgs: '../../dist/imgs';
 
 $screen-sizes: (
     start: 240px,
     xs: 480px,
     md: 768px,
-    lg: 1024px
+    lg: 1024px,
+    xl: 1280px
 );
 
 $body-bg: #3b4163;
@@ -170,8 +21,11 @@ $c-letter: #fff;
 $c-letter-bg: rgba(#50525a, 0.92);
 $c-disabled-letter-bg: rgba(#50525a, 0.30);
 
+$base-font-size: 14px;
+
 $transition-time: 0.3s;
 $transition-name: ease;
+
 
 $man-animation-enabled: false;
 
@@ -200,6 +54,8 @@ $bar-radius: 4px;
         @include man-hands;
         @include man-legs;
         @include man-foots;
+
+        @include input-letters-item;
     }
 }
 
@@ -207,9 +63,8 @@ $game-over-bg: rgba($body-bg, 0.74);
 
 $corner-bg: #4d69fa;
 
-$base-font-size: 14px;
-$small-font-size: 10px;
 $font-family: 'Aller', sans-serif;
+
 
 $count-letters: 12;
 

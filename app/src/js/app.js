@@ -1,3 +1,5 @@
-(function(window, document) {
+import * as mobileDetect from './functions/mobileDetect';
 
-})(window, document);
+(function() {
+    mobileDetect.init();
+})();

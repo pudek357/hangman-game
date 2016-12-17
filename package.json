@@ -40,7 +40,9 @@
       "browserify-shim"
     ]
   },
-  "browser": {},
+  "browser": {
+    "mobileDetect": "./node_modules/mobile-detect/mobile-detect.js"
+  },
   "browserify-shim": {},
   "scripts": {},
   "repository": {

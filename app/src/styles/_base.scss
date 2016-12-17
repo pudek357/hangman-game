@@ -1,6 +1,5 @@
 .app {
     background-color: $app-bg;
-    min-height: calc(100vh - (2 * #{$body-padding / 2}));
     padding: $app-padding / 2;
     position: relative;
 }
@@ -10,8 +9,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-content: flex-start;
+    min-height: calc(100vh - (2 * #{$body-padding}));
 }
 
 .corner-bg {
@@ -26,7 +26,10 @@
 }
 
 .missed-info {
-    font-size: 18px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .missed-info__title {
@@ -51,8 +54,11 @@
     background-color: $bar-bg;
     border-top-right-radius: $bar-radius;
     border-bottom-right-radius: $bar-radius;
-    margin-bottom: 800px;
     @include is-hidden('background-color');
+
+  @include respo-from(xs) {
+
+  }
 }
 .bar__inner {
     position: absolute;
@@ -217,8 +223,14 @@
 .game-over__btn {}
 
 .input-letters {
+    width: 100%;
     margin-right: -2px;
     margin-left: -2px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     @include clearfix;
 }
 .input-letters__item {
@@ -226,10 +238,12 @@
     width: 100% * (1/ $count-letters);
     text-align: center;
     color: $c-letter;
-    padding: 5px 0 8px;
     position: relative;
     z-index: 10;
     line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:before {
         content: '';
@@ -243,6 +257,43 @@
         z-index: -1;
     }
 }
+.input-letters__item-inner {
+    opacity: 0;
+    transform: translate(-10px, -5px) scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.is-visible {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
 .input-letters__item--empty:before {
     background-color: $c-disabled-letter-bg;
+}
+
+.mobile-input {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 110;
+    background-color: rgba(#fff, 0.5);
+    padding: 5px 10px;
+    text-align: center;
+    opacity: 0;
+}
+
+.mobile-input__inner {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.is-mobile {
+    .bar {
+        order: -1;
+    }
 }
