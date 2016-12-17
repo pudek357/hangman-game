@@ -1,1 +1,130 @@
+@keyframes move-bar {
+    0% {
+        transform: rotate(-$bar-rotate);
+    }
+    100% {
+        transform: rotate($bar-rotate);
+    }
+}
+@keyframes move-neck {
+    0% {
+        transform: rotate(-$neck-rotate);
+    }
+    100% {
+        transform: rotate($neck-rotate);
+    }
+}
+@keyframes move-left-foot {
+    0% {
+        transform: rotate(-$foot-left-rotate);
+    }
+    100% {
+        transform: rotate($foot-left-rotate);
+    }
+}
+@keyframes move-right-foot {
+    0% {
+        transform: rotate($foot-right-rotate);
+    }
+    100% {
+        transform: rotate(-$foot-right-rotate);
+    }
+}
+@keyframes move-left-arm {
+    0% {
+        transform: rotate($arm-left-rotate-start);
+    }
+    100% {
+        transform: rotate($arm-left-rotate-end);
+    }
+}
+@keyframes move-right-arm {
+    0% {
+        transform: rotate($arm-right-rotate-start);
+    }
+    100% {
+        transform: rotate($arm-right-rotate-end);
+    }
+}
+@keyframes move-left-leg {
+    0% {
+        transform: rotate($leg-left-rotate-start);
+    }
+    100% {
+        transform: rotate($leg-left-rotate-end);
+    }
+}
+@keyframes move-right-leg {
+    0% {
+        transform: rotate($leg-right-rotate-start);
+    }
+    100% {
+        transform: rotate($leg-right-rotate-end);
+    }
+}
 
+%move-bar {
+    @if $man-animation-enabled == true {
+        animation: move-bar $bar-anim-duration ease infinite alternate;
+    } @else {
+        transform: rotate(0deg);
+    }
+}
+
+%move-neck {
+    @if $man-animation-enabled == true {
+        animation: move-neck $neck-anim-duration ease infinite alternate;
+    } @else {
+        transform: rotate(0deg);
+    }
+}
+
+%move-left-foot {
+    @if $man-animation-enabled == true {
+        animation: move-left-foot $foot-anim-duration ease infinite alternate;
+    } @else {
+        transform: rotate($foot-left-rotate);
+    }
+}
+
+%move-right-foot {
+    @if $man-animation-enabled == true {
+        animation: move-right-foot $foot-anim-duration ease round($foot-anim-duration * 0.35) infinite alternate;
+    } @else {
+        transform: rotate($foot-right-rotate);
+    }
+}
+
+%move-left-arm {
+    @if $man-animation-enabled == true {
+        transform: rotate($arm-left-rotate-start);
+        animation: move-left-arm $arm-left-anim-duration ease $arm-left-anim-duration infinite alternate;
+    } @else {
+        transform: rotate($arm-left-rotate-end);
+    }
+}
+
+%move-right-arm {
+    @if $man-animation-enabled == true {
+        animation: move-right-arm $arm-right-anim-duration ease round($arm-right-anim-duration * 0.15) infinite alternate;
+    } @else {
+        transform: rotate($arm-right-rotate-end);
+    }
+}
+
+%move-left-leg {
+    @if $man-animation-enabled == true {
+        transform: rotate($leg-left-rotate-start);
+        animation: move-left-leg $leg-left-anim-duration ease $leg-left-anim-duration infinite alternate;
+    } @else {
+        transform: rotate($leg-left-rotate-end);
+    }
+}
+
+%move-right-leg {
+    @if $man-animation-enabled == true {
+        animation: move-right-leg $leg-right-anim-duration ease round($leg-right-anim-duration * 0.35) infinite alternate;
+    } @else {
+        transform: rotate($leg-right-rotate-end);
+    }
+}

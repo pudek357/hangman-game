@@ -10,22 +10,26 @@
                     .missed-info__title= "You missed:"
                     .missed-info__letters= "BGSDFKSDJFSDFSD"
                 .start-info= "Start typing"
-                .man
+                .bar
+                    .bar__inner
+                        .man
+                            .man__head
+                                %img(src="./dist/imgs/head.png")
+                                .man__neck
+                                    .man__corpus
+                                        .man__right-arm
+                                            .man__right-hand
+                                        .man__left-arm
+                                            .man__left-hand
+                                        .man__right-leg
+                                            .man__right-foot
+                                        .man__left-leg
+                                            .man__left-foot
+
                 .input-letters
-                    .input-letters__item.input-letters__item--1
-                    .input-letters__item.input-letters__item--2.input-letters__item--empty= "d"
-                    .input-letters__item.input-letters__item--3
-                    .input-letters__item.input-letters__item--4
-                    .input-letters__item.input-letters__item--5= "r"
-                    .input-letters__item.input-letters__item--6
-                    .input-letters__item.input-letters__item--7= "w"
-                    .input-letters__item.input-letters__item--8
-                    .input-letters__item.input-letters__item--9
-                    .input-letters__item.input-letters__item--10
-                    .input-letters__item.input-letters__item--11
-                    .input-letters__item.input-letters__item--12
-                / :each item in [1,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                /     .input-letters__= item
+                    :each item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        /:if item < 5
+                        .input-letters__item(class="input-letters__item--!{item}")= "B"
             .corner-bg
 
             .game-over
