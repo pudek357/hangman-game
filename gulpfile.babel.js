@@ -29,8 +29,9 @@ var paths = {
         'haml': './app/haml/**/*.haml',
     },
     'dist': {
-        'styles': './public/dist/styles',
-        'js': './public/dist/js',
+        'public': './app/public',
+        'styles': './app/public/dist/styles',
+        'js': './app/public/dist/js',
     }
 };
 
@@ -68,7 +69,7 @@ gulp.task('sass-lint', () => {
 
 gulp.task('js-lint', ['js'], () => {
     return gulp.src([
-            './js/**/*.js',
+            paths.src.jsAllFiles,
             './gulpfile.babel.js'
         ])
         .pipe(jshint())
@@ -108,25 +109,23 @@ gulp.task('js', initBrowserify);
 
 gulp.task('minify-js', () => {
     return gulp.src([
-            './dist/js/app.js',
+            paths.dist.js + '/app.js'
         ])
         .pipe(uglify())
-        .pipe(gulp.dest('./dist/js'));
+        .pipe(gulp.dest(paths.dist.js));
 });
 
 gulp.task('haml', () => {
-  gulp.src('./app/haml/**/*.haml')
-    .pipe(haml({
-        // compiler: 'visionmedia'
-    }))
-    .pipe(gulp.dest('./public'))
+  gulp.src(paths.src.haml)
+    .pipe(haml())
+    .pipe(gulp.dest(paths.dist.public))
     .pipe(browserSync.stream());
 });
 
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
-            baseDir: './public'
+            baseDir: paths.dist.public
         }
     });
 });

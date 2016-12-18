@@ -9,36 +9,40 @@
             .app__inner
                 .missed-info
                     .missed-info__title= "You missed:"
-                    .missed-info__letters= "BGSDFKSDJFSDFSD"
+                    .missed-info__letters
+
                 .bar
                     .bar__inner
                         .man
                             .man__head
-                                %img(src="./dist/imgs/head.png")
-                                .man__neck
-                                    .man__corpus
-                                        .man__right-arm
-                                            .man__right-hand
-                                        .man__left-arm
-                                            .man__left-hand
-                                        .man__right-leg
-                                            .man__right-foot
-                                        .man__left-leg
-                                            .man__left-foot
+                                %img.is-hidden(src="./dist/imgs/head.png" data-mistake="1")
+                                .man__neck.is-hidden(data-mistake="2")
+                                    .man__corpus.is-hidden(data-mistake="3")
+                                        .man__right-arm.is-hidden(data-mistake="5")
+                                            .man__right-hand.is-hidden(data-mistake="7")
+                                        .man__left-arm.is-hidden(data-mistake="4")
+                                            .man__left-hand.is-hidden(data-mistake="6")
+                                        .man__right-leg.is-hidden(data-mistake="9")
+                                            .man__right-foot.is-hidden(data-mistake="11")
+                                        .man__left-leg.is-hidden(data-mistake="8")
+                                            .man__left-foot.is-hidden(data-mistake="10")
 
                 .input-letters
                     :each item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        /:if item < 5
-                        .input-letters__item(class="input-letters__item--!{item}")
-                            .input-letters__item-inner= "B"
+                        .input-letters__item.is-disabled(class="input-letters__item--!{item}")
+                            .input-letters__item-inner
             .corner-bg
 
-            .modal
-                .modal__start
-                    .modal__start-title.modal__start-title--desktop= "Start typing<br>to play"
-                    .modal__start-title.modal__start-title--mobile= "Touch to play"
-                .modal__game-over
-                    .game-over-title= "Game over"
-                    %button.game-over-btn{type: "button"}= "New word"
+        .modal
+            .modal__content.modal__start
+                .modal__start-title.modal__start-title--desktop= "Start typing<br>to play"
+                .modal__start-title.modal__start-title--mobile= "Touch to play"
+            .modal__content.modal__game.modal__game-over
+                .modal__game-title.modal__game-over-title= "Game over"
+                .modal__game-subtitle= "Word to guess was:"
+                %button.modal__game-btn.modal__game-over-btn.js-start-game{type: "button"}= "New word"
+            .modal__content.modal__game.modal__game-won
+                .modal__game-title.modal__game-won-title= "Good. You survived!"
+                %button.modal__game-btn.modal__game-won-btn.js-start-game{type: "button"}= "New word"
 
         %script(src="./dist/js/app.js")

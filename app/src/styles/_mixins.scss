@@ -112,6 +112,12 @@
     }
 }
 
+@mixin modal-game-respo {
+    .modal__game {
+        font-size: round(1.4 * $base-font-size);
+    }
+}
+
 @mixin body-respo {
     body {
         font-size: $base-font-size;
@@ -136,13 +142,13 @@
         }
     }
 
-    transition: #{$type} $transition-time $transition-name;
+    transition: #{$type} 0.3s ease;
 }
 
 @mixin is-hidden-psudo-el($type: 'opacity', $pseudo-el: 'before') {
 
     &.is-hidden:#{$pseudo-el} {
-        transition: background-color $transition-time $transition-name;
+        transition: background-color 0.3s ease;
 
         @if $type == 'opacity' {
             opacity: 0;

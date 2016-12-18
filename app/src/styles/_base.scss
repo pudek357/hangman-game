@@ -1,3 +1,26 @@
+html {
+    box-sizing: border-box;
+
+    * {
+        box-sizing: inherit;
+    }
+}
+
+body {
+    background-color: $body-bg;
+    padding: $body-padding / 2;
+    font-family: $font-family;
+    font-weight: 400;
+    color: $c-main;
+    margin: 0 auto;
+    width: 100%;
+
+    @include respo-from(xl) {
+        padding: $body-padding;
+    }
+}
+
+
 .app {
     background-color: $app-bg;
     padding: $app-padding / 2;
@@ -7,6 +30,10 @@
 
     .is-init & {
         opacity: 1;
+    }
+
+    @include respo-from(xl) {
+        padding: $app-padding;
     }
 }
 
@@ -18,6 +45,10 @@
     justify-content: flex-start;
     align-content: flex-start;
     min-height: calc(100vh - (2 * #{$body-padding}));
+
+    @include respo-from(xl) {
+        min-height: calc(100vh - (4 * #{$body-padding}));
+    }
 }
 
 .corner-bg {
@@ -44,8 +75,14 @@
     position: absolute;
     left: 0;
     right: 0;
+    width: 50%;
+    opacity: 0;
+    transition: opacity 0.15s ease;
 
-    body:not(.is-mobile) & {
+    .is-game-started & {
+        opacity: 1;
+    }
+    .is-desktop & {
         left: auto;
     }
 }
@@ -59,7 +96,7 @@
 .missed-info__letters {
     letter-spacing: 0.09em;
     color: $c-accent;
-    line-height: 0.8;
+    line-height: 0.9;
     text-transform: uppercase;
 }
 
@@ -70,6 +107,10 @@
     border-top-right-radius: $bar-radius;
     border-bottom-right-radius: $bar-radius;
     @include is-hidden('background-color');
+
+    @include respo-from(xl) {
+        left: - $body-padding;
+    }
 }
 .bar__inner {
     position: absolute;
@@ -96,6 +137,7 @@
 }
 .man__neck {
     background-color: $man-c-skin;
+    border-radius: $man-neck-radius;
     margin-right: auto;
     margin-left: auto;
 
@@ -105,6 +147,7 @@
 .man__corpus {
     position: absolute;
     background-color: $man-c-trousers;
+    border-radius: $man-corpus-radius;
 
     &:before,
     &:after {
@@ -116,10 +159,12 @@
     }
     &:before {
         background-color: $man-c-right-arm;
+        border-top-left-radius: $man-corpus-radius;
         left: 0;
     }
     &:after {
         background-color: $man-c-left-arm;
+        border-top-right-radius: $man-corpus-radius;
         right: 0;
     }
 
@@ -234,29 +279,31 @@
     bottom: 0;
     left: 0;
     z-index: 210;
-    background-color: rgba($body-bg, 0.75);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+    background-color: $modal-bg;
     text-align: center;
     line-height: 1;
     text-transform: uppercase;
     color: $c-letter;
+    pointer-events: none;
 
     @include is-hidden();
 }
+.modal__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 
-.modal__start {}
+    @extend .is-hidden;
+}
+.modal__start {
+    @extend .is-visible;
+}
 .modal__start-title {
     opacity: 0;
     transform: translateY(-20px);
     transition: opacity 0.3s ease-out 0.1s, transform 0.5s ease-out 0.1s;
-
-    .is-init & {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 .modal__start-title--desktop {
     display: block;
@@ -272,9 +319,108 @@
         display: block;
     }
 }
+.modal__game {
+    @extend .is-hidden;
+}
+.modal__game-title {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s;
+}
+.modal__game-subtitle {
+    font-size: 0.3em;
+    opacity: 0;
+    transition: opacity 0.3s ease-out 0.4s, transform 0.3s ease-out 0.4s;
+    text-transform: none;
+}
+.modal__game-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: auto;
+}
+.modal__game-title {
+}
+.modal__game-btn {
+    transition: opacity 0.3s ease-out 0.25s, transform 0.3s ease-out 0.25s, color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    outline: none;
+    background-color: transparent;
+    color: $c-btn;
+    border: 1px dashed $c-btn;
+    border-radius: 35px;
+    text-transform: uppercase;
+    font-size: 0.6em;
+    padding: 5px 10px;
+    margin-top: 5px;
 
-.modal__game-over {
-    display: none;
+    &:hover {
+        color: lighten($c-btn, 15%);
+        border-color: lighten($c-btn, 15%);
+        background-color: rgba(lighten($c-btn, 15%), 0.1);
+    }
+
+    @include respo-from(md) {
+        font-size: 0.35em;
+        border-width: 2px;
+        padding: 10px 20px;
+    }
+    @include respo-from(xl) {
+        border-width: 3px;
+        padding: 20px 40px;
+        margin-top: 30px;
+    }
+}
+.is-init {
+    .modal__start {
+        @extend .is-visible;
+    }
+    .modal__start-title {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.is-game-started {
+    .modal__start-title {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    .modal {
+        opacity: 0;
+    }
+
+    .modal__start {
+        @extend .is-hidden;
+    }
+    .modal__game {
+        @extend .is-visible;
+    }
+}
+.is-game-over,
+.is-game-won {
+    .modal {
+        opacity: 1;
+    }
+}
+.is-game-over {
+    .modal__game-won {
+        @extend .is-hidden;
+    }
+    .modal__game-over-title,
+    .modal__game-subtitle,
+    .modal__game-over-btn {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.is-game-won {
+    .modal__game-over {
+        @extend .is-hidden;
+    }
+    .modal__game-won-title,
+    .modal__game-won-btn {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .input-letters {
@@ -310,10 +456,17 @@
         background-color: $c-letter-bg;
         border-radius: 3px;
         z-index: -1;
+        transition: background-color 0.3s ease;
 
         @include respo-from(md) {
             right: 3px;
             left: 3px;
+        }
+    }
+
+    &.is-disabled {
+        &:before {
+            background-color: $c-disabled-letter-bg;
         }
     }
 
@@ -322,6 +475,7 @@
     opacity: 0;
     transform: translate(-10px, -5px) scale(0.5);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    text-transform: uppercase;
 
     &.is-visible {
         opacity: 1;
@@ -352,7 +506,7 @@
 }
 
 
-
+// Mobile
 .is-mobile {
     .bar {
         order: -1;

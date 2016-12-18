@@ -1,19 +1,23 @@
 const MobileDetect = require('mobile-detect');
 
-export function init() {
-    const md = new MobileDetect(window.navigator.userAgent);
+const md = new MobileDetect(window.navigator.userAgent);
 
-    if (md.mobile()) {
-        document.body.className += ' is-mobile';
+export const isMobile = !!md.mobile();
+
+export function initMobileDetect() {
+    'use strict';
+
+    if (isMobile) {
+        document.body.classList.add('is-mobile');
 
         const appHld = document.querySelector('.app');
 
-        const inputHld = document.createElement("DIV");
-        inputHld.className = 'mobile-input';
+        const inputHld = document.createElement('DIV');
+        inputHld.classList.add('mobile-input');
 
-        const input = document.createElement("INPUT");
+        const input = document.createElement('INPUT');
         input.type = 'text';
-        input.className = 'mobile-input__inner';
+        input.classList.add('mobile-input__inner');
 
         inputHld.appendChild(input);
         document.body.appendChild(inputHld);
@@ -21,9 +25,7 @@ export function init() {
         appHld.addEventListener('click', function () {
             input.focus();
         });
+    } else {
+        document.body.classList.add('is-desktop');
     }
-
-    setTimeout(function() {
-        document.body.className += ' is-init';
-    }, 100);
 }
