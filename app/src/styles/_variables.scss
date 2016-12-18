@@ -6,7 +6,7 @@ $screen-sizes: (
     md: 768px,
     lg: 1024px,
     xl: 1280px
-);
+) !global;
 
 $body-bg: #3b4163;
 $body-padding: 40px;
@@ -20,8 +20,6 @@ $c-iron: #e6e6e7;
 $c-letter: #fff;
 $c-letter-bg: rgba(#50525a, 0.92);
 $c-disabled-letter-bg: rgba(#50525a, 0.30);
-
-$base-font-size: 14px;
 
 $transition-time: 0.3s;
 $transition-name: ease;
@@ -55,7 +53,10 @@ $bar-radius: 4px;
         @include man-legs;
         @include man-foots;
 
+        @include missed-info-respo;
         @include input-letters-item;
+
+        @include body-respo;
     }
 }
 

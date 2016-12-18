@@ -2,6 +2,12 @@
     background-color: $app-bg;
     padding: $app-padding / 2;
     position: relative;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    .is-init & {
+        opacity: 1;
+    }
 }
 
 .app__inner {
@@ -21,31 +27,40 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 0 150px 150px;
+    border-width: 0 0 75px 75px;
     border-color: transparent transparent $corner-bg;
+
+    @include respo-from(xs) {
+        border-bottom-width: 150px;
+        border-left-width: 150px;
+    }
+    @include respo-from(lg) {
+        border-bottom-width: 250px;
+        border-left-width: 250px;
+    }
 }
 
 .missed-info {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+
+    body:not(.is-mobile) & {
+        left: auto;
+    }
 }
 
 .missed-info__title {
     font-size: .5em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
 
 .missed-info__letters {
     letter-spacing: 0.09em;
     color: $c-accent;
     line-height: 0.8;
-    min-height: 26px;
-    margin-bottom: 12px;
-}
-
-.start-info {
-    display: none;
+    text-transform: uppercase;
 }
 
 .bar {
@@ -55,10 +70,6 @@
     border-top-right-radius: $bar-radius;
     border-bottom-right-radius: $bar-radius;
     @include is-hidden('background-color');
-
-  @include respo-from(xs) {
-
-  }
 }
 .bar__inner {
     position: absolute;
@@ -216,11 +227,55 @@
     @extend %move-right-foot;
 }
 
-.game-over {
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 210;
+    background-color: rgba($body-bg, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    line-height: 1;
+    text-transform: uppercase;
+    color: $c-letter;
+
+    @include is-hidden();
+}
+
+.modal__start {}
+.modal__start-title {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out 0.1s, transform 0.5s ease-out 0.1s;
+
+    .is-init & {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.modal__start-title--desktop {
+    display: block;
+
+    .is-mobile & {
+        display: none;
+    }
+}
+.modal__start-title--mobile {
+    display: none;
+
+    .is-mobile & {
+        display: block;
+    }
+}
+
+.modal__game-over {
     display: none;
 }
-.game-over__title {}
-.game-over__btn {}
 
 .input-letters {
     width: 100%;
@@ -255,7 +310,13 @@
         background-color: $c-letter-bg;
         border-radius: 3px;
         z-index: -1;
+
+        @include respo-from(md) {
+            right: 3px;
+            left: 3px;
+        }
     }
+
 }
 .input-letters__item-inner {
     opacity: 0;

@@ -10,7 +10,6 @@
                 .missed-info
                     .missed-info__title= "You missed:"
                     .missed-info__letters= "BGSDFKSDJFSDFSD"
-                .start-info= "Start typing"
                 .bar
                     .bar__inner
                         .man
@@ -34,8 +33,12 @@
                             .input-letters__item-inner= "B"
             .corner-bg
 
-            .game-over
-                .game-over__title= "Game over"
-                %button.game-over__btn{type: "button"}= "New word"
+            .modal
+                .modal__start
+                    .modal__start-title.modal__start-title--desktop= "Start typing<br>to play"
+                    .modal__start-title.modal__start-title--mobile= "Touch to play"
+                .modal__game-over
+                    .game-over-title= "Game over"
+                    %button.game-over-btn{type: "button"}= "New word"
 
         %script(src="./dist/js/app.js")

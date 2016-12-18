@@ -11,6 +11,10 @@
         width: $bar-width;
         height: $bar-gauge;
         margin-bottom: $man-height;
+
+        .is-mobile & {
+            margin-bottom: $man-height + round($input-letters-box-height * 2.8);
+        }
     }
 }
 
@@ -78,7 +82,7 @@
     .man__right-leg {
         width: $man-leg-width;
         height: $man-leg-height;
-        top: 100% - $man-corpus-bottom-height;
+        top: 110% - $man-corpus-bottom-height;
     }
 }
 
@@ -97,6 +101,23 @@
         height: $input-letters-box-height;
     }
 }
+
+@mixin missed-info-respo {
+    .missed-info {
+        .is-mobile & {
+            bottom: round(1.3 * $input-letters-box-height);
+        }
+
+        font-size: round(1.4 * $base-font-size);
+    }
+}
+
+@mixin body-respo {
+    body {
+        font-size: $base-font-size;
+    }
+}
+
 
 @mixin clearfix {
     &::after {
@@ -143,7 +164,7 @@
 
     // Man
     $man-head-width: round($val / 8) !global;
-    @if $val == 240px {
+    @if $val == '#{map-get($screen-sizes, 'start')}' {
         $man-head-width: 60px !global;
     }
 
@@ -166,11 +187,12 @@
 
     $man-height: $bar-gauge + $bar-inner-height + $man-head-height + ($man-neck-height - $man-head-width) + $man-corpus-height + $man-leg-height !global;
 
-    // input-letters
-    $respo-base-font-size: round($val / 28) !global;
-    @if $val == 240px {
-        $respo-base-font-size: 14px !global;
+    // font-size
+    $base-font-size: round($val / 30) !global;
+    @if $val == '#{map-get($screen-sizes, 'start')}' {
+        $base-font-size: 14px !global;
     }
-    $input-letters-font-size: round(1.3 * $respo-base-font-size) !global;
+
+    $input-letters-font-size: round(1.3 * $base-font-size) !global;
     $input-letters-box-height: round(1.5 * $input-letters-font-size) !global;
 }

@@ -22,4 +22,8 @@ export function init() {
             input.focus();
         });
     }
+
+    setTimeout(function() {
+        document.body.className += ' is-init';
+    }, 100);
 }
