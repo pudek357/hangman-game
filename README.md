@@ -1,5 +1,7 @@
 # Hangman game
 
+### Demo is available [here](http://pudek357.idhosting.pl/hangman/).
+
 ## Installation
 
 ### Clone repository
@@ -11,5 +13,5 @@
 ### Run gulp with browser-sync
 `gulp`
 
-### Open URL with game
+### Open in your browse URL with game
 `http://localhost:3000`

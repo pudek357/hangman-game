@@ -1,0 +1,96 @@
+@mixin set-responsive-styles {
+    body {
+        font-size: $base-font-size;
+    }
+
+    // bar
+    .bar {
+        width: $bar-width;
+        height: $bar-gauge;
+        margin-bottom: $man-height + $input-letters-box-height;
+
+        .is-mobile & {
+            margin-bottom: $man-height + round($input-letters-box-height * 2.8);
+        }
+    }
+    .bar__inner {
+        top: $bar-gauge - round(0.2 * $bar-gauge);
+        right: $bar-gauge;
+        width: $bar-gauge;
+        height: $bar-inner-height;
+    }
+
+    // man
+    .man__head {
+        width: $man-head-width;
+        margin-top: round($bar-inner-height * 0.90);
+        margin-left: $bar-gauge / 2;
+    }
+    .man__neck {
+        width: $man-neck-width;
+        height: $man-neck-height;
+        margin-top: -$man-head-width;
+    }
+    .man__corpus {
+        top: $man-neck-height;
+        left: - round(0.5 * $man-corpus-width);
+        transform: translateX($man-neck-width / 2);
+        width: $man-corpus-width;
+        height: $man-corpus-height;
+
+        &:before,
+        &:after {
+            height: 100% - $man-corpus-bottom-height;
+        }
+    }
+    .man__left-arm {
+        width: $man-arm-width;
+        height: $man-arm-height;
+        top: - round(0.03 * $man-neck-height);
+        right: - round(0.05 * $man-neck-width);
+    }
+    .man__right-arm {
+        width: $man-arm-width;
+        height: $man-arm-height;
+        top: - round(0.03 * $man-neck-height);
+        left: - round(0.05 * $man-neck-width);
+    }
+    .man__left-hand,
+    .man__right-hand {
+        top: calc(100% - #{(0.42 * $man-hand-width)});
+        width: $man-hand-width;
+        height: $man-hand-width;
+    }
+    .man__left-leg,
+    .man__right-leg {
+        width: $man-leg-width;
+        height: $man-leg-height;
+        top: 110% - $man-corpus-bottom-height;
+    }
+    .man__left-foot,
+    .man__right-foot {
+        top: calc(100% - #{(0.42 * $man-hand-width)});
+        width: $man-foot-width;
+        height: $man-foot-height;
+    }
+
+    // input letters
+    .input-letters__item {
+        font-size: $input-letters-font-size;
+        height: $input-letters-box-height;
+    }
+
+    // missed info
+    .missed-info {
+        .is-mobile & {
+            bottom: round(1.3 * $input-letters-box-height);
+        }
+
+        font-size: round(1.4 * $base-font-size);
+    }
+
+    // modal
+    .modal__game {
+        font-size: round(1.4 * $base-font-size);
+    }
+}

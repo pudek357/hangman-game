@@ -1,0 +1,35 @@
+@mixin set-responsive-variables ($val: 480px) {
+    // man
+    $man-head-width: round($val / 8) !global;
+    @if $val == '#{map-get($screen-sizes, 'start')}' {
+        $man-head-width: 60px !global;
+    }
+    $man-head-height: round(1.1 * $man-head-width) !global;
+    $man-neck-width: round(0.24 * $man-head-width) !global;
+    $man-neck-height: round($man-head-width + 0.46 * $man-neck-width) !global;
+    $man-corpus-width: round(0.55 * $man-head-width) !global;
+    $man-corpus-height: round(1.58 * $man-corpus-width) !global;
+    $man-arm-width: round(0.45 * $man-corpus-width) !global;
+    $man-arm-height: round(0.9 * $man-corpus-height) !global;
+    $man-hand-width: round(0.7 * $man-arm-width) !global;
+    $man-leg-width: round(0.48 * $man-corpus-width) !global;
+    $man-leg-height: round(1.14 * $man-corpus-height) !global;
+    $man-foot-width: round($man-leg-width * 1.8) !global;
+    $man-foot-height: round(0.32 * $man-foot-width) !global;
+
+    // bar
+    $bar-width: round($man-neck-width * 7) !global;
+    $bar-gauge: round(0.16 * $man-head-width) !global;
+    $bar-inner-height: round(0.21 * $man-head-width) !global;
+
+    // man-height
+    $man-height: $bar-gauge + $bar-inner-height + $man-head-height + ($man-neck-height - $man-head-width) + $man-corpus-height + $man-leg-height !global;
+
+    // font-sizes
+    $base-font-size: round($val / 30) !global;
+    @if $val == '#{map-get($screen-sizes, 'start')}' {
+        $base-font-size: 14px !global;
+    }
+    $input-letters-font-size: round(1.3 * $base-font-size) !global;
+    $input-letters-box-height: round(1.5 * $input-letters-font-size) !global;
+}

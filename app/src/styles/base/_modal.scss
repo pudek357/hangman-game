@@ -1,0 +1,95 @@
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 210;
+    background-color: $c-modal-bg;
+    text-align: center;
+    line-height: 1;
+    text-transform: uppercase;
+    color: $c-letter;
+    pointer-events: none;
+
+    @include is-hidden;
+}
+.modal__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    @extend .is-hidden;
+}
+.modal__start {
+    @extend .is-visible;
+}
+.modal__start-title {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out 0.1s, transform 0.5s ease-out 0.1s;
+}
+.modal__start-title--desktop {
+    display: block;
+
+    .is-mobile & {
+        display: none;
+    }
+}
+.modal__start-title--mobile {
+    display: none;
+
+    .is-mobile & {
+        display: block;
+    }
+}
+.modal__game {
+    @extend .is-hidden;
+}
+.modal__game-title {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s;
+}
+.modal__game-subtitle {
+    font-size: 0.3em;
+    opacity: 0;
+    transition: opacity 0.3s ease-out 0.4s, transform 0.3s ease-out 0.4s;
+    text-transform: none;
+}
+.modal__game-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: auto;
+}
+.modal__game-btn {
+    transition: opacity 0.3s ease-out 0.25s, transform 0.3s ease-out 0.25s, color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    outline: none;
+    background-color: transparent;
+    color: $c-btn;
+    border: 1px dashed $c-btn;
+    border-radius: 35px;
+    text-transform: uppercase;
+    font-size: 0.6em;
+    padding: 5px 10px;
+    margin-top: 5px;
+
+    &:hover {
+        color: $c-btn-hover;
+        border-color: $c-btn-hover;
+        background-color: rgba($c-btn-hover, 0.1);
+    }
+
+    @include respo-from(md) {
+        font-size: 0.35em;
+        border-width: 2px;
+        padding: 10px 20px;
+    }
+    @include respo-from(xl) {
+        border-width: 3px;
+        padding: 20px 40px;
+        margin-top: 30px;
+    }
+}

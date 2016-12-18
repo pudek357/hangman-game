@@ -1,0 +1,148 @@
+.man__head {
+    transform: translateX(-50%);
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        position: relative;
+        z-index: 10;
+
+        @include is-hidden;
+    }
+}
+.man__neck {
+    background-color: $man-c-skin;
+    border-radius: $man-neck-radius;
+    margin-right: auto;
+    margin-left: auto;
+
+    @include is-hidden('background-color');
+    @extend %move-neck;
+}
+.man__corpus {
+    position: absolute;
+    background-color: $man-c-trousers;
+    border-radius: $man-corpus-radius;
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 50%;
+        z-index: 10;
+    }
+    &:before {
+        background-color: $man-c-right-arm;
+        border-top-left-radius: $man-corpus-radius;
+        left: 0;
+    }
+    &:after {
+        background-color: $man-c-left-arm;
+        border-top-right-radius: $man-corpus-radius;
+        right: 0;
+    }
+
+    @include is-hidden;
+}
+.man__left-arm,
+.man__right-arm {
+    position: absolute;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        border-radius: $man-limb-radius;
+    }
+}
+.man__left-arm {
+    transform-origin: top right;
+
+    @include is-hidden-psudo-el('background-color');
+    @extend %move-left-arm;
+
+    &:before {
+        background-color: $man-c-left-arm;
+    }
+}
+.man__right-arm {
+    transform-origin: top left;
+
+    @include is-hidden-psudo-el('background-color');
+    @extend %move-right-arm;
+
+    &:before {
+        background-color: $man-c-right-arm;
+    }
+}
+.man__left-hand,
+.man__right-hand {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    background-color: $man-c-skin;
+    border-radius: $man-hand-radius;
+    margin-right: auto;
+    margin-left: auto;
+
+    @include is-hidden('background-color');
+}
+.man__left-leg,
+.man__right-leg {
+    position: absolute;
+
+    @include is-hidden-psudo-el('background-color');
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        background-color: $man-c-trousers;
+        border-radius: $man-limb-radius;
+    }
+}
+.man__left-leg {
+    margin-left: auto;
+    margin-right: 0;
+    right: 0;
+    transform-origin: top right;
+
+    @extend %move-left-leg;
+}
+.man__right-leg {
+    left: 0;
+    transform-origin: top left;
+
+    @extend %move-right-leg;
+}
+.man__left-foot,
+.man__right-foot {
+    position: absolute;
+    z-index: 1;
+    background-color: $man-c-skin;
+    border-radius: $man-limb-radius;
+    margin-right: auto;
+    margin-left: auto;
+
+    @include is-hidden('background-color');
+}
+.man__left-foot {
+    left: 0;
+
+    @extend %move-left-foot;
+}
+.man__right-foot {
+    right: 0;
+
+    @extend %move-right-foot;
+}

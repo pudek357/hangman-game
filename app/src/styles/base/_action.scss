@@ -1,0 +1,55 @@
+.is-init {
+    .modal__start {
+        @extend .is-visible;
+    }
+    .modal__start-title {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.is-game-started {
+    .modal__start-title {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    .modal {
+        opacity: 0;
+    }
+    .modal__start {
+        @extend .is-hidden;
+    }
+    .modal__game {
+        @extend .is-visible;
+    }
+}
+
+.is-game-over,
+.is-game-won {
+    .modal {
+        opacity: 1;
+    }
+}
+
+.is-game-over {
+    .modal__game-won {
+        @extend .is-hidden;
+    }
+    .modal__game-over-title,
+    .modal__game-subtitle,
+    .modal__game-over-btn {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.is-game-won {
+    .modal__game-over {
+        @extend .is-hidden;
+    }
+    .modal__game-won-title,
+    .modal__game-won-btn {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

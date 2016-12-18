@@ -1,0 +1,56 @@
+.input-letters {
+    width: 100%;
+    margin-right: -2px;
+    margin-left: -2px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    @include clearfix;
+}
+.input-letters__item {
+    float: left;
+    width: 100% * (1/ $count-letters);
+    text-align: center;
+    color: $c-letter;
+    position: relative;
+    z-index: 10;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 1px;
+        bottom: 0;
+        left: 1px;
+        background-color: $c-letter-bg;
+        border-radius: 3px;
+        z-index: -1;
+        transition: background-color 0.3s ease;
+
+        @include respo-from(md) {
+            right: 3px;
+            left: 3px;
+        }
+    }
+
+    &.is-disabled:before {
+        background-color: $c-letter-bg-disabled;
+    }
+}
+.input-letters__item-inner {
+    opacity: 0;
+    transform: translate(-10px, -5px) scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    text-transform: uppercase;
+
+    &.is-visible {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}

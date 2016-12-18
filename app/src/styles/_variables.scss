@@ -1,3 +1,4 @@
+// respo sizes
 $screen-sizes: (
     start: 240px,
     xs: 480px,
@@ -6,20 +7,26 @@ $screen-sizes: (
     xl: 1280px
 ) !global;
 
+// body
 $body-bg: #3b4163;
 $body-padding: 40px;
 
+// app
 $app-bg: #f5f5f5;
-$app-padding: 40px;
+$app-padding: $body-padding;
 
+// colors
 $c-main: #53555d;
-$c-accent: #4d69fa; //missed letters color
-$c-iron: #e6e6e7;
 $c-letter: #fff;
 $c-letter-bg: rgba(#50525a, 0.92);
-$c-disabled-letter-bg: rgba(#50525a, 0.30);
+$c-letter-bg-disabled: rgba(#50525a, 0.30);
+$c-letter-missed-info: #4d69fa;
 $c-btn: #ffba00;
+$c-btn-hover: lighten($c-btn, 15%);
+$c-corner-bg: #4d69fa;
+$c-modal-bg: rgba($body-bg, 0.74);
 
+// man
 $man-animation-enabled: false;
 
 $man-c-skin: #fece8a;
@@ -32,43 +39,17 @@ $man-corpus-radius: 5px;
 $man-limb-radius: 11px;
 $man-hand-radius: 20px;
 
+// bar
 $bar-bg: $c-main;
 $bar-radius: 4px;
 
-@each $key, $val in $screen-sizes {
-    @media only screen and (min-width: $val) {
-        @include set-responsive-variables($val);
-
-        @include bar;
-        @include bar-inner;
-        @include man-head;
-        @include man-neck;
-        @include man-corpus;
-        @include man-left-arm;
-        @include man-right-arm;
-        @include man-hands;
-        @include man-legs;
-        @include man-foots;
-
-        @include missed-info-respo;
-        @include input-letters-item;
-        @include modal-game-respo;
-
-        @include body-respo;
-    }
-}
-
-$modal-bg: rgba($body-bg, 0.74);
-
-$corner-bg: #4d69fa;
-
+// font
 $font-family: 'Aller', sans-serif;
 
-
+// misc
 $count-letters: 12;
 
-
-// Animation
+// animation
 $bar-rotate: 5deg;
 $bar-anim-duration: 4s;
 

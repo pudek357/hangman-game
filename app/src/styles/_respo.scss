@@ -1,0 +1,8 @@
+@import 'mixins/respo';
+
+@each $key, $val in $screen-sizes {
+    @media only screen and (min-width: $val) {
+        @include set-responsive-variables($val);
+        @include set-responsive-styles;
+    }
+}

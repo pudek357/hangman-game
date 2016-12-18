@@ -1,0 +1,28 @@
+.missed-info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 50%;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+
+    .is-game-started & {
+        opacity: 1;
+    }
+    .is-desktop & {
+        left: auto;
+    }
+}
+
+.missed-info__title {
+    font-size: .5em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.missed-info__letters {
+    letter-spacing: 0.09em;
+    color: $c-letter-missed-info;
+    line-height: 0.9;
+    text-transform: uppercase;
+}

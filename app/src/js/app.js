@@ -113,8 +113,6 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
                 }
             }
         }
-
-        return false;
     };
 
     const listenForTyping = function () {
@@ -130,7 +128,7 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
         };
 
         if (isMobile) {
-            document.querySelector('.mobile-input__inner').addEventListener('input', function(e) {
+            document.querySelector('.mobile-input__inner').addEventListener('input', function() {
                 const letter = this.value.substr(this.value.length - 1);
 
                 globalListenForTyping(letter);
@@ -144,32 +142,26 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
         }
 
         document.querySelectorAll('.js-start-game').forEach(function (element) {
-            element.addEventListener('click', function(e) {
+            element.addEventListener('click', function() {
                 reinitGame();
             });
         });
     };
 
-    const loadJSON = function (url) {
+    const loadJSON = function (url, done) {
         let xhr = new XMLHttpRequest();
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200 && xhr.responseText) {
-                    if (DEBUG) {
-                        console.log(JSON.parse(xhr.responseText));
-                    }
-
-                    wordToGuess = JSON.parse(xhr.responseText).word.toLowerCase();
-                } else {
-                    //FIXME
-                    if (DEBUG) {
-                        console.log('sth went wrong, add info to refresh window');
-                    }
-                }
+        xhr.open('GET', url);
+        xhr.onload = function () {
+            if (this.status === 200) {
+                done(null, xhr.response);
+            } else {
+                done(xhr.response);
             }
         };
-        xhr.open('GET', url, true);
+        xhr.onerror = function () {
+            done(xhr.response);
+        };
         xhr.send();
     };
 
@@ -177,6 +169,7 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
         let url = 'http://api.wordnik.com:80/v4/words.json/randomWord?';
 
         const params = {
+            /* jshint camelcase: false */
             minLength: wordMinLength,
             maxLength: wordMaxLength,
             api_key: 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
@@ -192,12 +185,21 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
         return url;
     };
 
-
     const initGame = function (onlyOneTime = false) {
-        loadJSON(prepareWordnikUrl());
+        loadJSON(prepareWordnikUrl(), function (err, data) {
+            if (err || typeof data === 'undefined') {
+                //FIXME
+                console.log('sth went wrong, add info to refresh window');
 
-        //FIXME: temporary -> add promise if loaded JSON then init game
-        setTimeout(function() {
+                return false;
+            }
+
+            if (DEBUG) {
+                console.log(JSON.parse(data));
+            }
+
+            wordToGuess = JSON.parse(data).word.toLowerCase();
+
             document.body.classList.add('is-init');
 
             wordToGuessLength = wordToGuess.length;
@@ -213,10 +215,8 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
             if (onlyOneTime) {
                 listenForTyping();
             }
-        }, 1000);
+        });
     };
-
-    //FIXME: start
 
     initMobileDetect();
 

@@ -1,0 +1,25 @@
+.bar {
+    position: relative;
+    left: - ($body-padding / 2);
+    background-color: $bar-bg;
+    border-top-right-radius: $bar-radius;
+    border-bottom-right-radius: $bar-radius;
+
+    .is-mobile & {
+        order: -1;
+    }
+
+    @include is-hidden('background-color');
+    @include respo-from(xl) {
+        left: - $body-padding;
+    }
+}
+.bar__inner {
+    position: absolute;
+    border-bottom-right-radius: $bar-radius;
+    border-bottom-left-radius: $bar-radius;
+    background-color: $bar-bg;
+
+    @include is-hidden('background-color');
+    @extend %move-bar;
+}

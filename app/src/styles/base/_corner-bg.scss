@@ -1,0 +1,19 @@
+.corner-bg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 75px 75px;
+    border-color: transparent transparent $c-corner-bg;
+
+    @include respo-from(xs) {
+        border-bottom-width: 150px;
+        border-left-width: 150px;
+    }
+    @include respo-from(lg) {
+        border-bottom-width: 250px;
+        border-left-width: 250px;
+    }
+}
