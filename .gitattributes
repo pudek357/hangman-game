@@ -9,5 +9,6 @@
 *.yml   text eol=lf
 *.php   text eol=lf
 *.txt   text eol=lf
+
 # Don't diff or textually merge source maps
 *.map   binary

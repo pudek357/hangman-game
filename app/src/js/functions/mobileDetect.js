@@ -22,7 +22,7 @@ export function initMobileDetect() {
         inputHld.appendChild(input);
         document.body.appendChild(inputHld);
 
-        appHld.addEventListener('click', function () {
+        appHld.addEventListener('click', () => {
             input.focus();
         });
     } else {

@@ -7,3 +7,9 @@
     opacity: 0;
     visibility: hidden;
 }
+
+.is-translate-centered {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

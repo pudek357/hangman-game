@@ -21,6 +21,7 @@
     transform: translate(-50%, -50%);
     transition: opacity 0.3s ease, visibility 0.3s ease;
 
+    @extend .is-translate-centered;
     @extend .is-hidden;
 }
 .modal__start {

@@ -1,73 +1,50 @@
 import { initMobileDetect, isMobile } from './functions/mobileDetect';
 
-(function() {
+(() => {
     'use strict';
 
+    const DEBUG = false;
+
+    const WORD_MIN_LENGTH = 7;
+    const WORD_MAX_LENGTH = 12;
+    const POSSIBLE_MISTAKES = 11;
+
     let wordToGuess = '';
-    let letters = [];
-    let wordToGuessLength = 0;
-    const wordMinLength = 7;
-    const wordMaxLength = 12;
-    const possibleMistakes = 11; // count man parts :)
-    let isGameStarted = false;
+
+    // input letters elements
+    let letters = {};
+
+    let isGameStartedOnInit = false;
     let isGameOver = false;
     let isGameWon = false;
     let isGameInProgress = false;
 
-    const DEBUG = true;
-
-    const reinitGame = function () {
-        isGameStarted = false;
-        isGameOver = false;
-        isGameWon = false;
-        isGameInProgress = false;
-
-        document.querySelector('.missed-info__letters').innerHTML = '';
-
-        document.querySelectorAll('.input-letters__item').forEach(function(letter) {
-            letter.classList.add('is-disabled');
-
-            letter.querySelector('div').innerHTML = '';
-            letter.querySelector('div').classList.remove('is-visible');
-        });
-
-
-        document.querySelectorAll('[data-mistake]').forEach(function(partOfMan) {
-            partOfMan.classList.add('is-hidden');
-        });
-
-        document.body.classList.remove('is-game-over', 'is-game-won');
-
-        initGame();
-    };
-
-    const gameOver = function () {
+    const gameOver = () => {
         isGameOver = true;
         isGameInProgress = false;
 
         document.querySelector('.modal__game-subtitle').innerHTML += ' ' + wordToGuess;
-
         document.body.classList.add('is-game-over');
     };
 
-    const gameWon = function () {
+    const gameWon = () => {
         isGameWon = true;
         isGameInProgress = false;
 
         document.body.classList.add('is-game-won');
     };
 
-    const checkIfGameIsWon = function () {
-        if (document.querySelectorAll('.input-letters__item-inner.is-visible').length === letters.length) {
+    const checkIfGameIsWon = () => {
+        if (document.querySelectorAll('.input-letters__item-inner.is-visible').length === wordToGuess.length) {
             return true;
         }
 
         return false;
     };
 
-    const showingMan = (mistakeNumber = 0) => {
+    const showPartOfMan = (mistakeNumber = 0) => {
         if (mistakeNumber) {
-            if (mistakeNumber <= possibleMistakes) {
+            if (mistakeNumber <= POSSIBLE_MISTAKES) {
                 document
                     .querySelector('[data-mistake="' + mistakeNumber + '"]')
                     .classList.remove('is-hidden');
@@ -77,36 +54,79 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
         }
     };
 
-    const showMissedLetter = function (letter = '') {
-        if (letter) {
-            const missedLettersHld = document.querySelector('.missed-info__letters');
+    /**
+     * show letter while typing when is duplicated
+     *
+     * @param  {string} letter
+     */
+    const showDuplicateLetter = (letter) => {
+        const duplicateLetterHld = document.querySelector('.duplicate-letter');
+        const duplicateLetterItem = document.createElement('DIV');
 
-            if (missedLettersHld.innerHTML.indexOf(letter) === -1) {
-                missedLettersHld.innerHTML += letter;
+        duplicateLetterItem.innerHTML = letter;
+        duplicateLetterItem.classList.add('duplicate-letter__inner');
 
-                showingMan(missedLettersHld.innerHTML.length);
-            } else {
-                //FIXME: add nice modal info
-                console.log('letter is already in missed letters');
-            }
+        duplicateLetterHld.appendChild(duplicateLetterItem);
+
+        setTimeout(function() {
+            duplicateLetterItem.classList.add('is-visible');
+
+            setTimeout(function() {
+                duplicateLetterItem.classList.add('is-hidden');
+
+                setTimeout(function() {
+                    duplicateLetterItem.remove();
+                }, 300);
+            }, 150);
+        }, 0);
+    };
+
+    /**
+     * show missed letter if we haven't added that letter yet
+     *
+     * @param  {string} letter
+     */
+    const showMissedLetter = (letter) => {
+        const missedLettersHld = document.querySelector('.missed-info__letters');
+
+        if (missedLettersHld.innerHTML.indexOf(letter) === -1) {
+            missedLettersHld.innerHTML += letter;
+
+            showPartOfMan(missedLettersHld.innerHTML.length);
+        } else {
+            showDuplicateLetter(letter);
         }
     };
 
-    const checkIfLetterIsCorrect = function (letter = '') {
+    const addNewLetterToInputs = (letter) => {
+        let onlyOneTimeShowInfo = false;
+
+        wordToGuess.split('').reduce((arr, el, idx) => {
+            const letterItem = letters[idx].querySelector('div');
+
+            if (el === letter) {
+                if (!letterItem.classList.contains('is-visible')) {
+                    arr.push(idx);
+
+                    letterItem.innerHTML = letter;
+                    letterItem.classList.add('is-visible');
+                } else if (!onlyOneTimeShowInfo) {
+                    onlyOneTimeShowInfo = true;
+
+                    showDuplicateLetter(letter);
+                }
+            }
+
+            return arr;
+        }, []);
+    };
+
+    const checkIfLetterIsCorrect = (letter) => {
         if (letter.length === 1 && isGameInProgress) {
             if (wordToGuess.indexOf(letter) === -1) {
                 showMissedLetter(letter);
             } else {
-                wordToGuess.split('').reduce(function (arr, el, idx) {
-                    if (el === letter) {
-                        arr.push(idx);
-
-                        letters[idx].querySelector('div').innerHTML = letter;
-                        letters[idx].querySelector('div').classList.add('is-visible');
-                    }
-
-                    return arr;
-                }, []);
+                addNewLetterToInputs(letter);
 
                 if (checkIfGameIsWon()) {
                     gameWon();
@@ -115,68 +135,105 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
         }
     };
 
-    const listenForTyping = function () {
-        const globalListenForTyping = function (letter = '') {
-            if (!isGameStarted) {
-                isGameStarted = true;
+    const reInitGame = () => {
+        isGameStartedOnInit = false;
+        isGameOver = false;
+        isGameWon = false;
+        isGameInProgress = false;
+
+        document.querySelector('.missed-info__letters').innerHTML = '';
+
+        document.querySelector('.modal__game-subtitle').innerHTML = '';
+
+        document.querySelectorAll('.input-letters__item').forEach((letter) => {
+            letter.classList.add('is-disabled');
+
+            letter.querySelector('div').innerHTML = '';
+            letter.querySelector('div').classList.remove('is-visible');
+        });
+
+        document.querySelectorAll('[data-mistake]').forEach((partOfMan) => {
+            partOfMan.classList.add('is-hidden');
+        });
+
+        initGame();
+    };
+
+    /**
+     * attach events for desktop and mobile devices
+     */
+    const attachTypeAndClickEvents = () => {
+        const checkIfGameIsStarted = () => {
+            if (!isGameStartedOnInit) {
+                isGameStartedOnInit = true;
                 isGameInProgress = true;
 
                 document.body.classList.add('is-game-started');
             }
-
-            checkIfLetterIsCorrect(letter);
         };
 
         if (isMobile) {
             document.querySelector('.mobile-input__inner').addEventListener('input', function() {
                 const letter = this.value.substr(this.value.length - 1);
 
-                globalListenForTyping(letter);
+                checkIfGameIsStarted();
+
+                checkIfLetterIsCorrect(letter);
             });
         } else {
-            document.addEventListener('keypress', function(e) {
+            document.addEventListener('keypress', (e) => {
                 const letter = e.key.trim();
 
-                globalListenForTyping(letter);
+                // when game is over or won
+                // to play again type enter or space
+                if (isGameOver || isGameWon) {
+                    if (e.keyCode === 13 || e.keyCode === 32) {
+                        reInitGame();
+                    }
+                }
+
+                checkIfGameIsStarted();
+
+                checkIfLetterIsCorrect(letter);
             });
         }
 
-        document.querySelectorAll('.js-start-game').forEach(function (element) {
-            element.addEventListener('click', function() {
-                reinitGame();
+        document.querySelectorAll('.js-start-game').forEach((element) => {
+            element.addEventListener('click', () => {
+                reInitGame();
             });
         });
     };
 
-    const loadJSON = function (url, done) {
+    const loadJSON = (url, done) => {
         let xhr = new XMLHttpRequest();
 
         xhr.open('GET', url);
-        xhr.onload = function () {
-            if (this.status === 200) {
+        xhr.onload = () => {
+            if (xhr.status === 200) {
                 done(null, xhr.response);
             } else {
                 done(xhr.response);
             }
         };
-        xhr.onerror = function () {
+        xhr.onerror = () => {
             done(xhr.response);
         };
         xhr.send();
     };
 
-    const prepareWordnikUrl = function () {
+    const prepareWordnikUrl = () => {
         let url = 'http://api.wordnik.com:80/v4/words.json/randomWord?';
 
         const params = {
             /* jshint camelcase: false */
-            minLength: wordMinLength,
-            maxLength: wordMaxLength,
+            minLength: WORD_MIN_LENGTH,
+            maxLength: WORD_MAX_LENGTH,
             api_key: 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
         };
 
         let paramsForUrl = '';
-        paramsForUrl = Object.keys(params).map(function(k) {
+        paramsForUrl = Object.keys(params).map((k) => {
             return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
         }).join('&');
 
@@ -185,11 +242,19 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
         return url;
     };
 
-    const initGame = function (onlyOneTime = false) {
-        loadJSON(prepareWordnikUrl(), function (err, data) {
+    const initGame = (onlyOneTime = false) => {
+        loadJSON(prepareWordnikUrl(), (err, data) => {
+            if (onlyOneTime) {
+                attachTypeAndClickEvents();
+
+                document.body.classList.add('is-init');
+            }
+
             if (err || typeof data === 'undefined') {
-                //FIXME
-                console.log('sth went wrong, add info to refresh window');
+                document.querySelector('.modal__game-over-title').innerHTML = 'Something when wrong';
+                document.querySelector('.modal__game-subtitle').innerHTML = '';
+
+                document.body.classList.add('is-game-started', 'is-game-over');
 
                 return false;
             }
@@ -200,21 +265,15 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
 
             wordToGuess = JSON.parse(data).word.toLowerCase();
 
-            document.body.classList.add('is-init');
-
-            wordToGuessLength = wordToGuess.length;
-
             letters = [].slice
                 .call(document.querySelectorAll('.input-letters__item'))
-                .slice(wordMaxLength - wordToGuessLength, wordMaxLength);
+                .slice(WORD_MAX_LENGTH - wordToGuess.length, WORD_MAX_LENGTH);
 
-            letters.forEach(function(letter) {
+            letters.forEach((letter) => {
                 letter.classList.remove('is-disabled');
             });
 
-            if (onlyOneTime) {
-                listenForTyping();
-            }
+            document.body.classList.remove('is-game-over', 'is-game-won');
         });
     };
 
