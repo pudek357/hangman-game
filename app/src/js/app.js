@@ -7,7 +7,7 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
 
     const WORD_MIN_LENGTH = 7;
     const WORD_MAX_LENGTH = 12;
-    const POSSIBLE_MISTAKES = 11;
+    const POSSIBLE_MISTAKES = 10;
 
     let wordToGuess = '';
 
@@ -44,11 +44,11 @@ import { initMobileDetect, isMobile } from './functions/mobileDetect';
 
     const showPartOfMan = (mistakeNumber = 0) => {
         if (mistakeNumber) {
-            if (mistakeNumber <= POSSIBLE_MISTAKES) {
-                document
-                    .querySelector('[data-mistake="' + mistakeNumber + '"]')
-                    .classList.remove('is-hidden');
-            } else {
+            document
+                .querySelector('[data-mistake="' + mistakeNumber + '"]')
+                .classList.remove('is-hidden');
+
+            if (mistakeNumber > POSSIBLE_MISTAKES) {
                 gameOver();
             }
         }
